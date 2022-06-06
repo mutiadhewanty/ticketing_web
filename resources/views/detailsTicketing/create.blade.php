@@ -1,49 +1,41 @@
-@extends('layouts.default')
+@extends('layouts.nav')
 
-@section('content')
-<section>
-    <div class="container nt-5">
-        <div class="row">
-        <div class="col-lg-8">
-        <h1>Create Ticket Transaction</h1>
-            </div>
-            <div class="col-lg-8">
-            <form action="/ticketing" method="POST">
-                @csrf
-                <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" name="name" class="form-control"> <br>
-                </div>
-                
-                <div class="form-group">
-                <label for="jumlah">Jumlah</label>
-                <input type="number" name="jumlah" class="form-control"> <br>
-                </div>
-                
-                <div class="form-group">
-                <label for="date">Date</label>
-                <input type="date" name="date" id="date" class="form-control"> <br>
-                </div>
-                
-                <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Save</button>
-                </div>
-
-
-</form>
-            </div>
-
-             
-        </div>
-    </div>
-</section>
-    
+@section('title')
+Tambah Ticketing
 @endsection
 
-
-
-
-
-
-
-
+@section('container')
+<h1 class="mt-4">Tambah Ticketing</h1>
+<div class="card mb-4">
+    <div class="card-header">
+        <i class="fas fa-table me-1"></i>
+        Edit Ticketing
+    </div>
+    <div class="card-body">
+        <form action="/ticketing" method="POST">
+            @csrf
+            <div class="mb-3">
+                <label for="nama">Name</label>
+                <input type="text" name="nama" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="jumlah">Jumlah</label>
+                <input type="number" name="jumlah" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="totHarga">Total Harga</label>
+                <input type="number" name="totHarga" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="data">Date</label>
+                <input type="date" name="data" id="data" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label for="time">Waktu</label>
+                <input type="time" name="waktu" id="waktu" class="form-control">
+            </div>
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+@endsection

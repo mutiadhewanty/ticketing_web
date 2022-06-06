@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class DetailTicketing extends Model
 {
     use HasFactory;
+    protected $table = "tiket";
     protected $guarded = ['id'];
 }
