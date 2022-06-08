@@ -4,6 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\DetailTicketingController;
 use App\Http\Controllers\BookPlaceController;
+use App\Http\Controllers\UsersAdminController;
+use App\Http\Controllers\UsersPengunjungController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -42,7 +45,19 @@ Route::delete('/booking/{id}', [BookPlaceController::class, 'destroy']);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/logout', function(){
+Route::get('/logout', function () {
     \Auth::logout();
     return redirect('/home');
 });
+
+// user admin
+Route::get('/adminUser', [UsersAdminController::class, 'index']);
+Route::get('/adminUser/{id}/edit', [UsersAdminController::class, 'edit']);
+Route::put('/adminUser/{id}', [UsersAdminController::class, 'update']);
+Route::delete('/adminUser/{id}', [UsersAdminController::class, 'destroy']);
+
+// user PengunjungUser
+Route::get('/pengunjungUser', [UsersPengunjungController::class, 'index']);
+Route::get('/pengunjungUser/{id}/edit', [UsersPengunjungController::class, 'edit']);
+Route::put('/pengunjungUser/{id}', [UsersPengunjungController::class, 'update']);
+Route::delete('/pengunjungUser/{id}', [UsersPengunjungController::class, 'destroy']);
