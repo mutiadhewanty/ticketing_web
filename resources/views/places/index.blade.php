@@ -10,7 +10,7 @@ Places
   <li class="breadcrumb-item active">Places</li>
 </ol>
 <div>
-  <a href="/places/create">
+  <a href="{{ route('places.create') }}">
     <button type="button" class="btn btn-outline-primary">Tambah Data Places</button>
   </a>
 </div>
@@ -27,6 +27,7 @@ Places
           <th>Name</th>
           <th>Description</th>
           <th>Price</th>
+          <th>Gambar</th>
           <th>Action</th>
         </tr>
       </thead>
@@ -35,6 +36,7 @@ Places
           <th>Name</th>
           <th>Description</th>
           <th>Price</th>
+          <th>Gambar</th>
           <th>Action</th>
         </tr>
       </tfoot>
@@ -44,14 +46,16 @@ Places
           <td>{{ $place->name }}</td>
           <td>{{ $place->description }}</td>
           <td>{{ $place->price }}</td>
+          <td class="text-center">
+            <img src="{{ asset('storage/'.$place->image) }}" class="rounded" style="width: 150px">
+          </td>
           <td class="col col-lg-1">
-            <a href="/places/{{ $place->id }}/edit" class="btn btn-warning">Edit</a><br><br>
-            <form action="/places/{{ $place->id }}" method="POST">
-              @method('DELETE')
+            <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('places.destroy', $place->id) }}" method="POST">
+              <a href="{{ route('places.edit', $place->id) }}" class="btn btn-warning btn-rounded">EDIT</a><br><br>
               @csrf
-              <input type="submit" value="Delete" class="btn btn-danger">
+              @method('DELETE')
+              <button type="submit" class="btn btn-danger btn-rounded">HAPUS</button>
             </form>
-
           </td>
         </tr>
         @endforeach

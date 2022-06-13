@@ -19,12 +19,7 @@ use App\Http\Controllers\UsersPengunjungController;
 |
 */
 
-Route::get('/places', [PlaceController::class, 'index']);
-Route::get('/places/create', [PlaceController::class, 'create']);
-Route::post('/places', [PlaceController::class, 'store']);
-Route::get('/places/{id}/edit', [PlaceController::class, 'edit']);
-Route::put('/places/{id}', [PlaceController::class, 'update']);
-Route::delete('/places/{id}', [PlaceController::class, 'destroy']);
+Route::resource('places', PlaceController::class);
 
 // detail ticketing
 Route::get('/ticketing', [DetailTicketingController::class, 'index']);
