@@ -56,3 +56,6 @@ Route::get('/pengunjungUser', [UsersPengunjungController::class, 'index']);
 Route::get('/pengunjungUser/{id}/edit', [UsersPengunjungController::class, 'edit']);
 Route::put('/pengunjungUser/{id}', [UsersPengunjungController::class, 'update']);
 Route::delete('/pengunjungUser/{id}', [UsersPengunjungController::class, 'destroy']);
+
+// places
+Route::resource('places',  PlaceController::class);
