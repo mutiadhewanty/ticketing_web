@@ -2,39 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Place;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class PlaceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $places = Place::all();
-        return view('places.index', compact(['places']));
+        return view('places.index', compact('places'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('places.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -45,15 +29,14 @@ class PlaceController extends Controller
         ]);
 
         //upload image
-        if ($request->file('image')) {
-            $image_name = $request->file('image')->store('place', 'public');
-        }
+        $image = $request->file('image');
+        $image->storeAs('public/place', $image->hashName());
 
         $places = Place::create([
-            'image'     => $image_name,
+            'image'     => $image->hashName(),
             'name'     => $request->name,
             'description'   => $request->description,
-            'price'     => $request->price
+            'price'   => $request->price,
         ]);
 
         if ($places) {
@@ -65,46 +48,20 @@ class PlaceController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    // public function show($id)
-    // {
-    //     $show = Pengeluaran::find($id);
-
-    //     return view('pengeluaran.detail', compact('show'));
-    // }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Place $place)
+    public function edit(Place $places)
     {
-        return view('places.edit', compact('place'));
+        return view('places.edit', compact('places'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Place $places)
     {
         $this->validate($request, [
             'name'     => 'required',
             'description'   => 'required',
-            'price' => 'required'
+            'price'   => 'required'
         ]);
 
-        //get data place by ID
+        //get data plc$places by ID
         $places = Place::findOrFail($places->id);
 
         if ($request->file('image') == "") {
@@ -112,43 +69,39 @@ class PlaceController extends Controller
             $places->update([
                 'name'     => $request->name,
                 'description'   => $request->description,
-                'price' => $request->price
+                'price'   => $request->price
             ]);
         } else {
 
-            if ($places->image && file_exists(storage_path('app/public/' . $places->image))) {
-                Storage::delete(['public/', $places->image]);
-            };
+            //hapus old image
+            Storage::disk('local')->delete('public/place/' . $places->image);
 
-            $image_name = $request->file('image')->store('place', 'public');
+            //upload new image
+            $image = $request->file('image');
+            $image->storeAs('public/place', $image->hashName());
 
             $places->update([
-                'image'     => $image_name,
+                'image'     => $image->hashName(),
                 'name'     => $request->name,
                 'description'   => $request->description,
-                'price' => $request->price
+                'price'   => $request->price
             ]);
         }
 
         if ($places) {
             //redirect dengan pesan sukses
-            return redirect()->route('places.index')->with(['success' => 'Data Berhasil Disimpan!']);
+            return redirect()->route('places.index')->with(['success' => 'Data Berhasil Diupdate!']);
         } else {
             //redirect dengan pesan error
-            return redirect()->route('places.index')->with(['error' => 'Data Gagal Disimpan!']);
+            return redirect()->route('places.index')->with(['error' => 'Data Gagal Diupdate!']);
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy($id)
     {
         $places = Place::findOrFail($id);
-        Storage::delete(['public/', $places->image]);
+        Storage::disk('local')->delete('public/place/' . $places->image);
         $places->delete();
 
         if ($places) {
@@ -156,7 +109,7 @@ class PlaceController extends Controller
             return redirect()->route('places.index')->with(['success' => 'Data Berhasil Dihapus!']);
         } else {
             //redirect dengan pesan error
-            return redirect()->route('blplaceog.index')->with(['error' => 'Data Gagal Dihapus!']);
+            return redirect()->route('places.index')->with(['error' => 'Data Gagal Dihapus!']);
         }
     }
 }
