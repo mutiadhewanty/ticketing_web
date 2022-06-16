@@ -10,6 +10,6 @@ Dashboard
     <li class="breadcrumb-item active">Selamat Datang di Website Ephoria</li>
 </ol>
 <div class="col-12">
-    <img src="{{ asset('Image\1.jpg')}}" class="img-fluid">
+    <img src="{{ URL('https://media.istockphoto.com/photos/kid-with-colorful-beach-ball-picture-id171381654?k=20&m=171381654&s=612x612&w=0&h=Q6qEidKH5tWB2Npba_eWHcIxKdExIdYwG_z9DvKc0eY=')}}" class="img-fluid">
 </div>
 @endsection

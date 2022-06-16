@@ -8,7 +8,7 @@ Place
 <h1 class="mt-4">Place</h1>
 <div>
     <a href="{{ route('places.create') }}">
-        <button type="button" class="btn btn-outline-primary">Tambah Data Pemasukan</button>
+        <button type="button" class="btn btn-outline-primary">Tambah Data Place</button>
     </a>
 </div>
 <br>
@@ -47,7 +47,7 @@ Place
                     <td>{{ $blog->description }}</td>
                     <td>{{ $blog->price }}</td>
                     <td class="text-center">
-                        <img src="{{ Storage::url('public/place/').$blog->image }}" class="rounded" style="width: 150px">
+                        <img src="{{ $blog->image }}" class="rounded" style="width: 150px">
                     </td>
                     <td class="text-center">
                         <form onsubmit="return confirm('Apakah Anda Yakin ?');" action="{{ route('places.destroy', $blog->id) }}" method="POST">

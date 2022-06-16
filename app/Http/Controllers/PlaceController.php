@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Place;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 
 class PlaceController extends Controller
@@ -21,31 +22,32 @@ class PlaceController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'image'     => 'required|image|mimes:png,jpg,jpeg',
-            'name'     => 'required',
-            'description'   => 'required',
-            'price'   => 'required'
-        ]);
+        // $this->validate($request, [
+        //     'image'     => 'required|image|mimes:png,jpg,jpeg',
+        //     'name'     => 'required',
+        //     'description'   => 'required',
+        //     'price'   => 'required'
+        // ]);
 
-        //upload image
-        $image = $request->file('image');
-        $image->storeAs('public/place', $image->hashName());
+        // //upload image
+        // $image = $request->file('image');
+        // $image->storeAs('public/place', $image->hashName());
 
-        $places = Place::create([
-            'image'     => $image->hashName(),
-            'name'     => $request->name,
-            'description'   => $request->description,
-            'price'   => $request->price,
-        ]);
-
-        if ($places) {
-            //redirect dengan pesan sukses
-            return redirect()->route('places.index')->with(['success' => 'Data Berhasil Disimpan!']);
-        } else {
-            //redirect dengan pesan error
-            return redirect()->route('places.index')->with(['error' => 'Data Gagal Disimpan!']);
-        }
+        // $places = Place::create([
+        //     'image'     => $image->hashName(),
+        //     'name'     => $request->name,
+        //     'description'   => $request->description,
+        //     'price'   => $request->price,
+        // ]);
+        Place::create($request->all());
+        return redirect()->route('places.index');
+        // if ($place) {
+        //     //redirect dengan pesan sukses
+        //     return redirect()->route('places.index')->with(['success' => 'Data Berhasil Disimpan!']);
+        // } else {
+        //     //redirect dengan pesan error
+        //     return redirect()->route('places.index')->with(['error' => 'Data Gagal Disimpan!']);
+        // }
     }
 
     public function edit(Place $places)
@@ -55,40 +57,42 @@ class PlaceController extends Controller
 
     public function update(Request $request, Place $places)
     {
-        $this->validate($request, [
-            'name'     => 'required',
-            'description'   => 'required',
-            'price'   => 'required'
-        ]);
+        $place = Place::find($id);
+        $place->update($request->all());
+        // $this->validate($request, [
+        //     'name'     => 'required',
+        //     'description'   => 'required',
+        //     'price'   => 'required'
+        // ]);
 
-        //get data plc$places by ID
-        $places = Place::findOrFail($places->id);
+        // //get data plc$places by ID
+        // $places = Place::findOrFail($places->id);
 
-        if ($request->file('image') == "") {
+        // if ($request->file('image') == "") {
 
-            $places->update([
-                'name'     => $request->name,
-                'description'   => $request->description,
-                'price'   => $request->price
-            ]);
-        } else {
+        //     $places->update([
+        //         'name'     => $request->name,
+        //         'description'   => $request->description,
+        //         'price'   => $request->price
+        //     ]);
+        // } else {
 
-            //hapus old image
-            Storage::disk('local')->delete('public/place/' . $places->image);
+        //     //hapus old image
+        //     Storage::disk('local')->delete('public/place/' . $places->image);
 
-            //upload new image
-            $image = $request->file('image');
-            $image->storeAs('public/place', $image->hashName());
+        //     //upload new image
+        //     $image = $request->file('image');
+        //     $image->storeAs('public/place', $image->hashName());
 
-            $places->update([
-                'image'     => $image->hashName(),
-                'name'     => $request->name,
-                'description'   => $request->description,
-                'price'   => $request->price
-            ]);
-        }
+        //     $places->update([
+        //         'image'     => $image->hashName(),
+        //         'name'     => $request->name,
+        //         'description'   => $request->description,
+        //         'price'   => $request->price
+        //     ]);
+        // }
 
-        if ($places) {
+        if ($place) {
             //redirect dengan pesan sukses
             return redirect()->route('places.index')->with(['success' => 'Data Berhasil Diupdate!']);
         } else {

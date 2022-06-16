@@ -28,7 +28,6 @@ Ticketing
           <th>Jumlah</th>
           <th>Total Harga</th>
           <th>Date</th>
-          <th>Waktu</th>
           <th>Aksi</th>
         </tr>
       </thead>
@@ -38,18 +37,16 @@ Ticketing
           <th>Jumlah</th>
           <th>Total Harga</th>
           <th>Date</th>
-          <th>Waktu</th>
           <th>Aksi</th>
         </tr>
       </tfoot>
       <tbody>
         @foreach($ticketing as $ticket)
         <tr>
-          <td>{{ $ticket->nama }}</td>
+          <td>{{ $ticket->name }}</td>
           <td>{{ $ticket->jumlah }}</td>
           <td>{{ $ticket->jumlah * 10000 }}</td>
-          <td>{{ $ticket->data }}</td>
-          <td>{{ $ticket->waktu }}</td>
+          <td>{{ $ticket->date }}</td>
           <td class="col col-lg-1">
             <a href="/ticketing/{{ $ticket->id }}/edit" class="btn btn-warning">Edit</a><br><br>
             <form action="/ticketing/{{ $ticket->id }}" method="POST">

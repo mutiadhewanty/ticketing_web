@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\PlaceController;
+// use App\Http\Controllers\PlaceController;
 use App\Http\Controllers\DetailTicketingController;
 use App\Http\Controllers\BookPlaceController;
 use App\Http\Controllers\UsersAdminController;
-use App\Http\Controllers\UsersPengunjungController;
+use App\Http\Controllers\CustomerController;
 
 
 /*
@@ -52,10 +52,10 @@ Route::put('/adminUser/{id}', [UsersAdminController::class, 'update']);
 Route::delete('/adminUser/{id}', [UsersAdminController::class, 'destroy']);
 
 // user PengunjungUser
-Route::get('/pengunjungUser', [UsersPengunjungController::class, 'index']);
-Route::get('/pengunjungUser/{id}/edit', [UsersPengunjungController::class, 'edit']);
-Route::put('/pengunjungUser/{id}', [UsersPengunjungController::class, 'update']);
-Route::delete('/pengunjungUser/{id}', [UsersPengunjungController::class, 'destroy']);
+Route::get('/pengunjungUser', [CustomerController::class, 'index']);
+Route::get('/pengunjungUser/{id}/edit', [CustomerController::class, 'edit']);
+Route::put('/pengunjungUser/{id}', [CustomerController::class, 'update']);
+Route::delete('/pengunjungUser/{id}', [CustomerController::class, 'destroy']);
 
 // places
-Route::resource('places',  PlaceController::class);
+// Route::resource('places',  PlaceController::class);
